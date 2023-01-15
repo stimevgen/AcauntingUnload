@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="AcauntingUnload:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/AcauntingUnload_jar</output-path>
+    <root id="archive" name="AcauntingUnload.jar">
+      <element id="module-output" name="AcauntingUnload" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/microsoft/sqlserver/mssql-jdbc/6.4.0.jre9/mssql-jdbc-6.4.0.jre9.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/github/albfernandez/javadbf/1.14.0/javadbf-1.14.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
