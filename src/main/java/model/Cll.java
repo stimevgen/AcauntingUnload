@@ -19,7 +19,4 @@ public class Cll {
         return skdUnicode;
     }
 
-    public String getCllName() {
-        return cllName;
-    }
 }

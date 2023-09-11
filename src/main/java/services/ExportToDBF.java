@@ -4,6 +4,7 @@ import com.linuxense.javadbf.DBFDataType;
 import com.linuxense.javadbf.DBFField;
 import com.linuxense.javadbf.DBFWriter;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.nio.charset.Charset;
@@ -11,16 +12,18 @@ import java.util.List;
 import java.util.Map;
 
 public class ExportToDBF {
-    public void create(List<Map<String, ?>> data, String fillName) throws FileNotFoundException {
+    public void create(List<Map<String, ?>> data, String path ,String fillName) throws FileNotFoundException {
         if (data == null) {
             return;
         }
         if (data.size() == 0) {
             return;
         }
-        System.out.print("Create file " + fillName + ".dbf" + "");
+        File dir = new File(path+"\\"+fillName);
+        if (dir.mkdir()) {System.out.println("Create dir "+dir.getPath());}
+        System.out.print("Create file " + dir.getPath()+"\\"+fillName + ".dbf" + "");
         Charset w1251 = Charset.forName("cp866");
-        DBFWriter writer = new DBFWriter(new FileOutputStream(fillName + ".dbf"), w1251);
+        DBFWriter writer = new DBFWriter(new FileOutputStream(dir.getPath()+"\\"+fillName + ".dbf"), w1251);
         DBFField[] fields = new DBFField[data.get(0).keySet().size()];
         Map<String, ?> rowsName = data.get(0);
         int key = 0;
