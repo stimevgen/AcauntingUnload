@@ -34,7 +34,8 @@ public class DataBase {
             while (resultSet.next()) {
                 Map<String, Object> row = new LinkedHashMap<>();
                 for (int i = 1; i <= columns; i++) {
-                    row.put(resultSetMetaData.getColumnLabel(i).toUpperCase(), resultSet.getObject(i));
+                    Class<?> type = resultSetMetaData.getColumnLabel(i).getClass();
+                    row.put(resultSetMetaData.getColumnLabel(i).toUpperCase(), resultSet.getObject(i,type));
                 }
                 results.add(row);
             }
@@ -67,7 +68,7 @@ public class DataBase {
     }
 
     public List<Map<String, ?>> getData(String dateBegin, String dateEnd, int cllUnicode, String name) {
-        List<Map<String, ?>> execSql = execSql("SET ANSI_WARNINGS OFF set dateformat dmy select * from [OL].[UNLOAD_DATA_FOR_1C]('" + dateBegin + "','" + dateEnd + "','" + name + "'," + cllUnicode + ",0,0,0)");
+        List<Map<String, ?>> execSql = execSql("SET ANSI_WARNINGS OFF set dateformat dmy select * from [OL].[UNLOAD_DATA_FOR_1C_auto]('" + dateBegin + "','" + dateEnd + "','" + name + "'," + cllUnicode + ",0,0,0) order by OPER_CODE, STORE_id, DOC_ID,DOC_DATE ");
         assert execSql != null;
         return execSql;
     }
