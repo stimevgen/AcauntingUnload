@@ -3,3 +3,4 @@
 /.idea/
 config.properties
 /out/
+!/src/main/resources/*
