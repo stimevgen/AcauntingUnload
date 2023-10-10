@@ -16,7 +16,7 @@ import java.util.Properties;
 
 public class AccountingUnloading {
     public static void main(String[] arg) throws IOException, ParseException {
-        if (arg.length != 3){
+        if (arg.length != 3) {
             System.out.println("Parameters not passed (DateBenin DateEnd Operation)");
             return;
         }
@@ -38,17 +38,21 @@ public class AccountingUnloading {
         DataBase dataBase = new DataBase(property.getProperty("db.connectionString"));
         String beginDate = LocalDate.now().minusDays(Long.parseLong(arg[0])).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String endDate = LocalDate.now().minusDays(Long.parseLong(arg[1])).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        String nameOperation= arg[2];
+        String nameOperation = arg[2];
         System.out.println("Unload data for a period " + beginDate + " - " + endDate);
         if (dataBase.isConnection()) {
             ExportToDBF exportToDBF = new ExportToDBF();
-            if (Objects.equals(nameOperation, "")){
+            if (Objects.equals(nameOperation, "")) {
                 for (String name : dataBase.getDocumentName()) {
-                    exportToDBF.create(dataBase.getData(beginDate, endDate, 0,name), property.getProperty("outPath"), name);
-                    exportToDBF.create(dataBase.getCashOrder(beginDate, endDate), property.getProperty("outPath"),  "CASH_ORDER");
+                    exportToDBF.create(dataBase.getData(beginDate, endDate, 0, name), property.getProperty("outPath"), name);
                 }
-            }else{
-                exportToDBF.create(dataBase.getData(beginDate, endDate, 0,nameOperation), property.getProperty("outPath"), nameOperation);
+                exportToDBF.create(dataBase.getCashOrder(beginDate, endDate), property.getProperty("outPath"), "CASH_ORDER");
+            } else {
+                if (nameOperation.equals("CASH_ORDER")) {
+                    exportToDBF.create(dataBase.getCashOrder(beginDate, endDate), property.getProperty("outPath"), "CASH_ORDER");
+                } else {
+                    exportToDBF.create(dataBase.getData(beginDate, endDate, 0, nameOperation), property.getProperty("outPath"), nameOperation);
+                }
             }
             System.out.println("Done");
         }
